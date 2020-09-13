@@ -5,7 +5,8 @@ import cats.implicits._
 import ru.crawler.title.Dto.TitleRequest
 
 object Validator {
-  val maxUrlListLength = 10
+
+  val maxUrlListLength = 100
 
   def validate(req: TitleRequest): Validated[NonEmptyChain[String], List[String]] = {
     validateLength(req.urlList.toList).andThen((urlList: List[String]) => urlList.map(validateUrl).sequence)
