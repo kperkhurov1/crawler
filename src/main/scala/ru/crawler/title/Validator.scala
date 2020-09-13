@@ -6,7 +6,7 @@ import ru.crawler.title.Dto.TitleRequest
 
 object Validator {
 
-  val maxUrlListLength = 100
+  val maxUrlListLength = 1000
 
   def validate(req: TitleRequest): Validated[NonEmptyChain[String], List[String]] = {
     validateLength(req.urlList.toList).andThen((urlList: List[String]) => urlList.map(validateUrl).sequence)
