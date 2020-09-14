@@ -25,7 +25,7 @@ object Main extends IOApp {
     case GET -> Root / "healthCheck" => Ok(HealthCheckResponse("alive").asJson)
     case req @ POST -> Root / "titles" => req.as[TitleRequest].flatMap {
       Validator.validate(_) match {
-        case Valid(urlList) => Ok(Service().run(urlList).asJson)
+        case Valid(urlList) => Service().run(urlList).flatMap(response => Ok(response.asJson))
         case Invalid(e) => BadRequest(ValidationErrors(e).asJson)
       }
     }.handleErrorWith {

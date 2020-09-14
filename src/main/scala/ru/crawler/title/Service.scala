@@ -14,8 +14,8 @@ class Service() {
   private val ecIO = ExecutionContext.fromExecutorService(Executors.newCachedThreadPool())
   private implicit val cs: ContextShift[IO] = IO.contextShift(ecIO)
 
-  def run(urlList: List[String]): TitleResponse = {
-    TitleResponse(urlList.map(requestTitle).parSequence.unsafeRunSync())
+  def run(urlList: List[String]): IO[TitleResponse] = {
+    urlList.map(requestTitle).parSequence.map(TitleResponse)
   }
 
   private def requestTitle(url: String): IO[Pair] = {
